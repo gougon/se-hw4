@@ -3,6 +3,15 @@ package com.grade;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+
 import com.grade.App;
 
 /**
@@ -13,8 +22,25 @@ class AppTest {
      * Rigorous Test.
      */
     @Test
-    void testApp() {
-        assertEquals(1, 1);
+    void testApp_input1_should_correct() {
+        String[] args = null;
+        ByteArrayInputStream testIn = new ByteArrayInputStream("1".getBytes());
+        System.setIn(testIn);
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        App.main(args);
+        assertEquals("Enter the score = The grade of 1 is F\r\n", outContent.toString());
+    }
+
+    @Test
+    void testApp_inputX_should_numberFormatError() {
+        String[] args = null;
+        ByteArrayInputStream testIn = new ByteArrayInputStream("X".getBytes());
+        System.setIn(testIn);
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        App.main(args);
+        assertEquals("Enter the score = Not an integer!\r\n", outContent.toString());
     }
 
     @Test
